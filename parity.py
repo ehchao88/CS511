@@ -14,6 +14,7 @@ psi = Or(And(p1, p2, Not(p3), Not(p4)), And(p1, p3, Not(p2), Not(p4)), And(p1, p
 #define biconditional only function theta
 theta = Not(Not(p1 == p2 == p3 == p4))
 
+#check validity by confirming that the negation of the conjunction of the functions is unsatisfiable
 s: Solver = Solver()
 s.add(phi != psi)
 s.add(phi != theta)
