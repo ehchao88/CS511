@@ -1,0 +1,17 @@
+set(binary_resolution).
+clear(print_initial_clauses).
+clear(print_kept).
+clear(print_given).
+assign(max_seconds,1).
+assign(stats,none).
+
+formulas(assumptions).
+outa0 = ina0.
+outa1 = (outa0 * ina0).
+outa2 = (outa1 * ina0).
+outb0 = ((inb0 * inb0) * inb0).
+
+formulas(goals).
+(ina0 = inb0) -> (outa2 = outb0).
+
+end_of_list.

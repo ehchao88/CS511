@@ -1,0 +1,15 @@
+set(binary_resolution).
+clear(print_initial_clauses).
+clear(print_kept).
+clear(print_given).
+assign(max_seconds,1).
+assign(stats,none).
+
+formulas(assumptions).
+phia(ina0, outa0, outa1, outa2) -> ((outa0 = ina0) & (outa1 = (outa0 * ina0)) & (outa2 = (outa1 * ina0))).
+phib(inb0, outb0) -> (outb0 = ((inb0 * inb0) * inb0)). 
+
+formulas(goals).
+all Ia0 all Ib0 all Oa0 all Oa1 all Oa2 all Ob0 (((Ia0 = Ib0) & phia(Ia0, Oa0, Oa1, Oa2) & phib(Ib0, Ob0)) -> (Oa2 = Ob0)).
+
+end_of_list.

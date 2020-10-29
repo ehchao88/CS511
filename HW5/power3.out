@@ -1,0 +1,124 @@
+============================== Mace4 =================================
+Mace4 (64) version 2009-11A, November 2009.
+Process 62974 was started by ericchao on Johns-MacBook-Pro.local,
+Thu Oct  8 16:49:37 2020
+The command was "/Users/ericchao/LADR-2009-11A/bin/./mace4 -c -f power3.in".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+% Reading from file power3.in
+
+assign(max_seconds,1).
+
+formulas(assumptions).
+phia(ina0,outa0,outa1,outa2) -> outa0 = ina0 & outa1 = outa1 * ina0 & outa2 = outa1 * ina0.
+phib(inb0,outb0) -> outb0 = (inb0 * inb0) * inb0.
+Ia0 = Ib0.
+phia(Ia0,Oa0,Oa1,Oa2) & phib(Ib0,Ob0).
+formulas(goals).
+Oa2 = Ob0.
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 phia(ina0,outa0,outa1,outa2) -> outa0 = ina0 & outa1 = outa1 * ina0 & outa2 = outa1 * ina0 # label(non_clause).  [assumption].
+2 phib(inb0,outb0) -> outb0 = (inb0 * inb0) * inb0 # label(non_clause).  [assumption].
+3 phia(Ia0,Oa0,Oa1,Oa2) & phib(Ib0,Ob0) # label(non_clause).  [assumption].
+
+============================== end of process non-clausal formulas ===
+
+============================== CLAUSES FOR SEARCH ====================
+
+formulas(mace4_clauses).
+-phia(ina0,outa0,outa1,outa2) | outa0 = ina0.
+-phia(ina0,outa0,outa1,outa2) | outa1 * ina0 = outa1.
+-phia(ina0,outa0,outa1,outa2) | outa1 * ina0 = outa2.
+-phib(inb0,outb0) | (inb0 * inb0) * inb0 = outb0.
+Ia0 = Ib0.
+phia(Ia0,Oa0,Oa1,Oa2).
+phib(Ib0,Ob0).
+formulas(goals).
+Oa2 = Ob0.
+end_of_list.
+
+============================== end of clauses for search =============
+
+% There are no natural numbers in the input.
+
+============================== DOMAIN SIZE 2 =========================
+
+============================== MODEL =================================
+
+interpretation( 2, [number=1, seconds=0], [
+
+        function(Ia0, [ 0 ]),
+
+        function(Ib0, [ 0 ]),
+
+        function(Oa0, [ 0 ]),
+
+        function(Oa1, [ 0 ]),
+
+        function(Oa2, [ 0 ]),
+
+        function(Ob0, [ 0 ]),
+
+        function(goals, [ 0 ]),
+
+        function(ina0, [ 0 ]),
+
+        function(inb0, [ 0 ]),
+
+        function(outa0, [ 0 ]),
+
+        function(outa1, [ 0 ]),
+
+        function(outa2, [ 0 ]),
+
+        function(outb0, [ 0 ]),
+
+        function(*(_,_), [
+			   0, 0,
+			   0, 0 ]),
+
+        relation(formulas(_), [ 1, 0 ]),
+
+        relation(phib(_,_), [
+			   1, 0,
+			   0, 0 ]),
+
+        relation(phia(_,_,_,_), [
+			   1, 0,
+			   0, 0,
+			   0, 0,
+			   0, 0,
+			   0, 0,
+			   0, 0,
+			   0, 0,
+			   0, 0 ])
+]).
+
+============================== end of model ==========================
+
+============================== STATISTICS ============================
+
+For domain size 2.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.01 seconds).
+Ground clauses: seen=9, kept=9.
+Selections=33, assignments=33, propagations=6, current_models=1.
+Rewrite_terms=41, rewrite_bools=11, indexes=6.
+Rules_from_neg_clauses=0, cross_offs=0.
+
+============================== end of statistics =====================
+
+User_CPU=0.01, System_CPU=0.01, Wall_clock=0.
+
+Exiting with 1 model.
+
+Process 62974 exit (max_models) Thu Oct  8 16:49:37 2020
+The process finished Thu Oct  8 16:49:37 2020

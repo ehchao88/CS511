@@ -1,0 +1,14 @@
+%set(binary_resolution).
+%clear(print_initial_clauses).
+%clear(print_kept).
+%clear(print_given).
+assign(max_seconds,1).
+%assign(stats,none).
+
+formulas(assumptions).
+G(G(x,y),z) = G(x,G(y,z)). %associativity
+G(e,x)=x. G(x,e)=x. %identity
+G(x',x)=e. G(x,x')=e. %inverse
+exists x exists y (G(x,y)!=G(y,x)). %not commutative
+
+end_of_list.
