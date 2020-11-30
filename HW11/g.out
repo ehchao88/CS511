@@ -1,0 +1,703 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2009-11A, November 2009.
+Process 83429 was started by ericchao on Johns-MBP.home,
+Sun Nov 29 12:15:21 2020
+The command was "/Users/ericchao/LADR-2009-11A/bin/./prover9".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+formulas(assumptions).
+poset(x,x).
+poset(x,y) & poset(y,x) -> x = y.
+poset(x,y) & poset(y,z) -> poset(x,z).
+poset(B,x).
+poset(x,T).
+poset(pl(x,y),z) <-> poset(x,z) & poset(y,z).
+poset(z,mu(x,y)) <-> poset(z,x) & poset(z,y).
+mu(x,pl(y,z)) = pl(mu(x,y),mu(x,z)).
+pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).
+poset(mu(x,y),z) <-> poset(x,squig(y,z)).
+squig(x,x) = T.
+end_of_list.
+
+formulas(goals).
+mu(x,squig(x,y)) = mu(x,y).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 poset(x,y) & poset(y,x) -> x = y # label(non_clause).  [assumption].
+2 poset(x,y) & poset(y,z) -> poset(x,z) # label(non_clause).  [assumption].
+3 poset(pl(x,y),z) <-> poset(x,z) & poset(y,z) # label(non_clause).  [assumption].
+4 poset(z,mu(x,y)) <-> poset(z,x) & poset(z,y) # label(non_clause).  [assumption].
+5 poset(mu(x,y),z) <-> poset(x,squig(y,z)) # label(non_clause).  [assumption].
+6 mu(x,squig(x,y)) = mu(x,y) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+poset(x,x).  [assumption].
+-poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+-poset(x,y) | -poset(y,z) | poset(x,z).  [clausify(2)].
+poset(B,x).  [assumption].
+poset(x,T).  [assumption].
+-poset(pl(x,y),z) | poset(x,z).  [clausify(3)].
+-poset(pl(x,y),z) | poset(y,z).  [clausify(3)].
+poset(pl(x,y),z) | -poset(x,z) | -poset(y,z).  [clausify(3)].
+-poset(x,mu(y,z)) | poset(x,y).  [clausify(4)].
+-poset(x,mu(y,z)) | poset(x,z).  [clausify(4)].
+poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).  [clausify(4)].
+mu(x,pl(y,z)) = pl(mu(x,y),mu(x,z)).  [assumption].
+pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).  [assumption].
+-poset(mu(x,y),z) | poset(x,squig(y,z)).  [clausify(5)].
+poset(mu(x,y),z) | -poset(x,squig(y,z)).  [clausify(5)].
+squig(x,x) = T.  [assumption].
+mu(c1,squig(c1,c2)) != mu(c1,c2).  [deny(6)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:  (no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ =, poset ]).
+Function symbol precedence:  function_order([ T, B, c1, c2, mu, pl, squig ]).
+After inverse_order:  (no changes).
+Unfolding symbols: (none).
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+  % set(hyper_resolution).  % (nonunit Horn with equality)
+    % set(hyper_resolution) -> set(pos_hyper_resolution).
+  % set(neg_ur_resolution).  % (nonunit Horn with equality)
+  % assign(para_lit_limit, 3).  % (nonunit Horn with equality)
+
+Auto_process settings:  (no changes).
+
+kept:      7 poset(x,x).  [assumption].
+kept:      8 -poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+kept:      9 -poset(x,y) | -poset(y,z) | poset(x,z).  [clausify(2)].
+kept:      10 poset(B,x).  [assumption].
+kept:      11 poset(x,T).  [assumption].
+kept:      12 -poset(pl(x,y),z) | poset(x,z).  [clausify(3)].
+kept:      13 -poset(pl(x,y),z) | poset(y,z).  [clausify(3)].
+kept:      14 poset(pl(x,y),z) | -poset(x,z) | -poset(y,z).  [clausify(3)].
+kept:      15 -poset(x,mu(y,z)) | poset(x,y).  [clausify(4)].
+kept:      16 -poset(x,mu(y,z)) | poset(x,z).  [clausify(4)].
+kept:      17 poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).  [clausify(4)].
+           18 mu(x,pl(y,z)) = pl(mu(x,y),mu(x,z)).  [assumption].
+kept:      19 pl(mu(x,y),mu(x,z)) = mu(x,pl(y,z)).  [copy(18),flip(a)].
+kept:      20 pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).  [assumption].
+kept:      21 -poset(mu(x,y),z) | poset(x,squig(y,z)).  [clausify(5)].
+kept:      22 poset(mu(x,y),z) | -poset(x,squig(y,z)).  [clausify(5)].
+kept:      23 squig(x,x) = T.  [assumption].
+kept:      24 mu(c1,squig(c1,c2)) != mu(c1,c2).  [deny(6)].
+kept:      25 mu(pl(mu(x,y),x),pl(mu(x,y),z)) = mu(x,pl(y,z)).  [back_rewrite(19),rewrite([20(3)])].
+
+============================== end of process initial clauses ========
+
+============================== CLAUSES FOR SEARCH ====================
+
+% Clauses after input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+7 poset(x,x).  [assumption].
+8 -poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+9 -poset(x,y) | -poset(y,z) | poset(x,z).  [clausify(2)].
+10 poset(B,x).  [assumption].
+11 poset(x,T).  [assumption].
+12 -poset(pl(x,y),z) | poset(x,z).  [clausify(3)].
+13 -poset(pl(x,y),z) | poset(y,z).  [clausify(3)].
+14 poset(pl(x,y),z) | -poset(x,z) | -poset(y,z).  [clausify(3)].
+15 -poset(x,mu(y,z)) | poset(x,y).  [clausify(4)].
+16 -poset(x,mu(y,z)) | poset(x,z).  [clausify(4)].
+17 poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).  [clausify(4)].
+20 pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).  [assumption].
+21 -poset(mu(x,y),z) | poset(x,squig(y,z)).  [clausify(5)].
+22 poset(mu(x,y),z) | -poset(x,squig(y,z)).  [clausify(5)].
+23 squig(x,x) = T.  [assumption].
+24 mu(c1,squig(c1,c2)) != mu(c1,c2).  [deny(6)].
+25 mu(pl(mu(x,y),x),pl(mu(x,y),z)) = mu(x,pl(y,z)).  [back_rewrite(19),rewrite([20(3)])].
+end_of_list.
+
+formulas(demodulators).
+20 pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).  [assumption].
+23 squig(x,x) = T.  [assumption].
+25 mu(pl(mu(x,y),x),pl(mu(x,y),z)) = mu(x,pl(y,z)).  [back_rewrite(19),rewrite([20(3)])].
+end_of_list.
+
+============================== end of clauses for search =============
+
+============================== SEARCH ================================
+
+% Starting search at 0.01 seconds.
+
+given #1 (I,wt=3): 7 poset(x,x).  [assumption].
+
+given #2 (I,wt=9): 8 -poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+
+given #3 (I,wt=9): 9 -poset(x,y) | -poset(y,z) | poset(x,z).  [clausify(2)].
+
+given #4 (I,wt=3): 10 poset(B,x).  [assumption].
+
+given #5 (I,wt=3): 11 poset(x,T).  [assumption].
+
+given #6 (I,wt=8): 12 -poset(pl(x,y),z) | poset(x,z).  [clausify(3)].
+
+given #7 (I,wt=8): 13 -poset(pl(x,y),z) | poset(y,z).  [clausify(3)].
+
+given #8 (I,wt=11): 14 poset(pl(x,y),z) | -poset(x,z) | -poset(y,z).  [clausify(3)].
+
+given #9 (I,wt=8): 15 -poset(x,mu(y,z)) | poset(x,y).  [clausify(4)].
+
+given #10 (I,wt=8): 16 -poset(x,mu(y,z)) | poset(x,z).  [clausify(4)].
+
+given #11 (I,wt=11): 17 poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).  [clausify(4)].
+
+given #12 (I,wt=13): 20 pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).  [assumption].
+
+given #13 (I,wt=10): 21 -poset(mu(x,y),z) | poset(x,squig(y,z)).  [clausify(5)].
+
+given #14 (I,wt=10): 22 poset(mu(x,y),z) | -poset(x,squig(y,z)).  [clausify(5)].
+
+given #15 (I,wt=5): 23 squig(x,x) = T.  [assumption].
+
+given #16 (I,wt=9): 24 mu(c1,squig(c1,c2)) != mu(c1,c2).  [deny(6)].
+
+given #17 (I,wt=17): 25 mu(pl(mu(x,y),x),pl(mu(x,y),z)) = mu(x,pl(y,z)).  [back_rewrite(19),rewrite([20(3)])].
+
+given #18 (A,wt=5): 26 poset(x,pl(x,y)).  [hyper(12,a,7,a)].
+
+given #19 (T,wt=5): 27 poset(x,pl(y,x)).  [hyper(13,a,7,a)].
+
+given #20 (T,wt=5): 28 poset(pl(B,B),x).  [hyper(14,b,10,a,c,10,a)].
+
+given #21 (T,wt=5): 29 poset(pl(B,x),x).  [hyper(14,b,10,a,c,7,a)].
+
+given #22 (T,wt=5): 30 poset(pl(x,B),x).  [hyper(14,b,7,a,c,10,a)].
+
+given #23 (A,wt=5): 31 poset(pl(x,x),x).  [hyper(14,b,7,a,c,7,a)].
+
+given #24 (T,wt=5): 32 poset(mu(x,y),x).  [hyper(15,a,7,a)].
+
+given #25 (T,wt=5): 33 poset(mu(x,y),y).  [hyper(16,a,7,a)].
+
+given #26 (T,wt=5): 34 poset(x,mu(T,T)).  [hyper(17,b,11,a,c,11,a)].
+
+given #27 (T,wt=5): 35 poset(x,mu(T,x)).  [hyper(17,b,11,a,c,7,a)].
+
+given #28 (A,wt=5): 36 poset(x,mu(x,T)).  [hyper(17,b,7,a,c,11,a)].
+
+given #29 (T,wt=5): 37 poset(x,mu(x,x)).  [hyper(17,b,7,a,c,7,a)].
+
+given #30 (T,wt=5): 40 poset(x,squig(y,T)).  [hyper(21,a,11,a)].
+
+given #31 (T,wt=5): 65 pl(T,x) = T.  [hyper(8,a,11,a,b,26,a),flip(a)].
+
+given #32 (T,wt=5): 83 pl(x,T) = T.  [hyper(8,a,11,a,b,27,a),flip(a)].
+
+given #33 (A,wt=12): 38 -poset(mu(pl(x,y),pl(x,z)),u) | poset(x,u).  [para(20(a,1),12(a,1))].
+
+given #34 (T,wt=5): 117 pl(B,x) = x.  [hyper(8,a,27,a,b,29,a)].
+
+given #35 (T,wt=5): 138 pl(x,B) = x.  [hyper(8,a,26,a,b,30,a)].
+
+given #36 (T,wt=5): 157 pl(x,x) = x.  [hyper(8,a,27,a,b,31,a)].
+
+given #37 (T,wt=5): 159 poset(x,squig(y,x)).  [hyper(21,a,32,a)].
+
+given #38 (A,wt=14): 39 -poset(mu(pl(x,y),pl(x,z)),u) | poset(mu(y,z),u).  [para(20(a,1),13(a,1))].
+
+given #39 (T,wt=5): 178 mu(B,x) = B.  [hyper(8,a,10,a,b,32,a)].
+
+given #40 (T,wt=5): 203 mu(x,B) = B.  [hyper(8,a,10,a,b,33,a)].
+
+given #41 (T,wt=5): 239 mu(T,x) = x.  [hyper(8,a,33,a,b,35,a),flip(a)].
+
+given #42 (T,wt=5): 257 mu(x,T) = x.  [hyper(8,a,32,a,b,36,a),flip(a)].
+
+given #43 (A,wt=7): 41 poset(x,squig(y,mu(x,y))).  [hyper(21,a,7,a)].
+
+given #44 (T,wt=5): 274 mu(x,x) = x.  [hyper(8,a,33,a,b,37,a),flip(a)].
+
+given #45 (T,wt=5): 293 squig(x,T) = T.  [hyper(8,a,11,a,b,40,a),flip(a)].
+
+given #46 (T,wt=6): 294 -poset(T,x) | poset(y,x).  [para(65(a,1),13(a,1))].
+
+given #47 (T,wt=6): 342 -poset(x,B) | poset(x,y).  [para(178(a,1),16(a,2))].
+
+given #48 (A,wt=7): 43 poset(mu(squig(x,y),x),y).  [hyper(22,b,7,a)].
+
+given #49 (T,wt=5): 419 poset(squig(T,x),x).  [para(257(a,1),43(a,1))].
+
+given #50 (T,wt=5): 459 squig(T,x) = x.  [hyper(8,a,159,a,b,419,a)].
+
+given #51 (T,wt=7): 62 poset(x,pl(pl(y,x),z)).  [hyper(13,a,26,a)].
+
+given #52 (T,wt=7): 63 poset(x,pl(pl(x,y),z)).  [hyper(12,a,26,a)].
+
+given #53 (A,wt=14): 45 -poset(x,mu(y,pl(z,u))) | poset(x,pl(mu(y,z),u)).  [para(25(a,1),16(a,2))].
+
+given #54 (T,wt=7): 70 poset(x,mu(x,pl(y,x))).  [hyper(17,b,7,a,c,27,a)].
+
+given #55 (T,wt=7): 73 poset(x,mu(pl(y,x),x)).  [hyper(17,b,27,a,c,7,a)].
+
+given #56 (T,wt=7): 77 poset(pl(x,y),pl(y,x)).  [hyper(14,b,27,a,c,26,a)].
+
+% Operation pl is commutative; C redundancy checks enabled.
+
+given #57 (T,wt=7): 80 poset(x,pl(y,pl(z,x))).  [hyper(13,a,27,a)].
+
+given #58 (A,wt=9): 51 poset(x,squig(y,pl(mu(x,y),z))).  [hyper(21,a,26,a)].
+
+given #59 (T,wt=5): 804 poset(x,squig(B,y)).  [para(203(a,1),51(a,2,2,1)),rewrite([117(3)])].
+
+given #60 (T,wt=5): 849 squig(B,x) = T.  [hyper(8,a,11,a,b,804,a),flip(a)].
+
+given #61 (T,wt=7): 81 poset(x,pl(y,pl(x,z))).  [hyper(12,a,27,a)].
+
+given #62 (T,wt=7): 169 poset(mu(mu(x,y),z),y).  [hyper(16,a,32,a)].
+
+given #63 (A,wt=9): 52 poset(x,mu(pl(x,y),pl(x,z))).  [hyper(17,b,26,a,c,26,a)].
+
+given #64 (T,wt=7): 170 poset(mu(mu(x,y),z),x).  [hyper(15,a,32,a)].
+
+given #65 (T,wt=7): 176 poset(mu(x,y),pl(z,x)).  [hyper(9,a,32,a,b,27,a)].
+
+given #66 (T,wt=7): 177 poset(mu(x,y),pl(x,z)).  [hyper(9,a,32,a,b,26,a)].
+
+given #67 (T,wt=7): 185 poset(mu(x,y),mu(y,x)).  [hyper(17,b,33,a,c,32,a)].
+
+% Operation mu is commutative; C redundancy checks enabled.
+
+given #68 (A,wt=9): 61 poset(pl(x,pl(x,y)),pl(x,y)).  [hyper(14,b,26,a,c,7,a)].
+
+given #69 (T,wt=7): 190 poset(mu(x,mu(y,z)),z).  [hyper(16,a,33,a)].
+
+given #70 (T,wt=7): 191 poset(mu(x,mu(y,z)),y).  [hyper(15,a,33,a)].
+
+given #71 (T,wt=7): 200 poset(mu(x,y),pl(z,y)).  [hyper(9,a,33,a,b,27,a)].
+
+given #72 (T,wt=7): 201 poset(mu(x,y),pl(y,z)).  [hyper(9,a,33,a,b,26,a)].
+
+given #73 (A,wt=11): 66 poset(x,squig(y,mu(pl(z,x),pl(z,y)))).  [hyper(21,a,27,a),rewrite([20(2)])].
+
+given #74 (T,wt=7): 295 mu(x,pl(x,y)) = x.  [para(65(a,1),25(a,2,2)),rewrite([257(2),157(1),257(2),257(4)])].
+
+given #75 (T,wt=7): 316 poset(x,mu(x,squig(y,x))).  [hyper(17,b,7,a,c,159,a)].
+
+given #76 (T,wt=7): 328 poset(x,squig(y,pl(z,x))).  [hyper(13,a,159,a)].
+
+given #77 (T,wt=7): 329 poset(x,squig(y,pl(x,z))).  [hyper(12,a,159,a)].
+
+given #78 (A,wt=9): 67 poset(x,mu(pl(y,x),pl(z,x))).  [hyper(17,b,27,a,c,27,a)].
+
+given #79 (T,wt=7): 330 poset(x,squig(y,squig(z,x))).  [hyper(9,a,159,a,b,159,a)].
+
+given #80 (T,wt=7): 331 poset(mu(x,y),squig(z,y)).  [hyper(9,a,33,a,b,159,a)].
+
+given #81 (T,wt=7): 332 poset(mu(x,y),squig(z,x)).  [hyper(9,a,32,a,b,159,a)].
+
+given #82 (T,wt=7): 333 poset(x,pl(y,squig(z,x))).  [hyper(9,a,159,a,b,27,a)].
+
+given #83 (A,wt=9): 68 poset(x,mu(pl(x,y),pl(z,x))).  [hyper(17,b,26,a,c,27,a)].
+
+given #84 (T,wt=7): 334 poset(x,pl(squig(y,x),z)).  [hyper(9,a,159,a,b,26,a)].
+
+given #85 (T,wt=7): 600 mu(x,pl(y,x)) = x.  [hyper(8,a,32,a,b,70,a),flip(a)].
+
+given #86 (T,wt=7): 690 pl(x,y) = pl(y,x).  [hyper(8,a,77,a,b,77,a)].
+
+given #87 (T,wt=7): 802 squig(x,pl(x,y)) = T.  [hyper(8,a,11,a,b,51,a),rewrite([239(3)]),flip(a)].
+
+given #88 (A,wt=9): 71 poset(x,mu(pl(y,x),pl(x,z))).  [hyper(17,b,27,a,c,26,a)].
+
+given #89 (T,wt=7): 1210 poset(x,squig(y,mu(y,x))).  [hyper(21,a,185,a)].
+
+given #90 (T,wt=7): 1260 poset(mu(x,squig(x,y)),y).  [hyper(9,a,185,a,b,43,a)].
+
+given #91 (T,wt=7): 1263 mu(x,y) = mu(y,x).  [hyper(8,a,185,a,b,185,a)].
+
+given #92 (T,wt=7): 1307 mu(x,squig(x,B)) = B.  [back_rewrite(418),rewrite([1263(3)])].
+
+given #93 (A,wt=9): 79 poset(pl(x,pl(y,x)),pl(y,x)).  [hyper(14,b,27,a,c,7,a)].
+
+given #94 (T,wt=7): 1379 poset(x,squig(mu(y,z),z)).  [hyper(21,a,190,a)].
+
+given #95 (T,wt=7): 1439 poset(x,squig(mu(y,z),y)).  [hyper(21,a,191,a)].
+
+given #96 (T,wt=7): 1710 squig(x,pl(y,x)) = T.  [hyper(8,a,11,a,b,66,a),rewrite([83(3),239(4)]),flip(a)].
+
+given #97 (T,wt=7): 1793 mu(x,squig(y,x)) = x.  [hyper(8,a,32,a,b,316,a),flip(a)].
+
+given #98 (A,wt=13): 165 poset(mu(x,y),mu(x,mu(pl(z,x),pl(z,y)))).  [hyper(17,b,32,a,c,27,a),rewrite([20(3)])].
+
+given #99 (T,wt=7): 2145 poset(x,squig(y,squig(z,y))).  [hyper(21,a,331,a)].
+
+given #100 (T,wt=7): 2905 poset(x,squig(squig(x,y),y)).  [hyper(21,a,1260,a)].
+
+given #101 (T,wt=7): 2970 poset(x,squig(squig(x,B),y)).  [para(1307(a,1),51(a,2,2,1)),rewrite([117(4)])].
+
+given #102 (T,wt=7): 3158 squig(mu(x,y),y) = T.  [hyper(8,a,11,a,b,1379,a),flip(a)].
+
+given #103 (A,wt=9): 168 poset(mu(x,y),mu(x,mu(x,y))).  [hyper(17,b,32,a,c,7,a)].
+
+given #104 (T,wt=7): 3273 squig(mu(x,y),x) = T.  [hyper(8,a,11,a,b,1439,a),flip(a)].
+
+given #105 (T,wt=7): 3500 squig(x,squig(y,x)) = T.  [hyper(8,a,11,a,b,2145,a),flip(a)].
+
+given #106 (T,wt=8): 340 -poset(x,y) | poset(mu(x,z),y).  [para(157(a,1),39(a,1,1)),rewrite([295(2)])].
+
+given #107 (T,wt=8): 341 -poset(x,y) | poset(mu(z,x),y).  [para(157(a,1),39(a,1,2)),rewrite([308(2)])].
+
+given #108 (A,wt=13): 186 poset(mu(x,y),mu(y,mu(pl(z,x),pl(z,y)))).  [hyper(17,b,33,a,c,27,a),rewrite([20(3)])].
+
+given #109 (T,wt=8): 344 -poset(x,y) | poset(T,squig(x,y)).  [para(239(a,1),21(a,1))].
+
+given #110 (T,wt=8): 555 -poset(x,y) | poset(x,pl(y,z)).  [para(65(a,1),45(a,2,2)),rewrite([257(2),257(3)])].
+
+given #111 (T,wt=8): 2656 -poset(x,y) | poset(x,pl(z,y)).  [para(600(a,1),16(a,2))].
+
+given #112 (T,wt=8): 3275 -poset(x,y) | poset(x,squig(z,y)).  [para(1793(a,1),16(a,2))].
+
+given #113 (A,wt=11): 187 poset(mu(x,y),mu(y,pl(mu(x,y),z))).  [hyper(17,b,33,a,c,26,a)].
+
+given #114 (T,wt=9): 189 poset(mu(x,y),mu(y,mu(x,y))).  [hyper(17,b,33,a,c,7,a)].
+
+given #115 (T,wt=9): 303 poset(mu(x,y),mu(x,pl(y,z))).  [back_rewrite(166),rewrite([301(4)])].
+
+given #116 (T,wt=9): 310 poset(x,squig(y,squig(z,mu(x,y)))).  [hyper(21,a,159,a)].
+
+given #117 (T,wt=9): 311 poset(x,mu(squig(y,x),squig(z,x))).  [hyper(17,b,159,a,c,159,a)].
+
+given #118 (A,wt=11): 204 poset(mu(x,pl(y,z)),pl(mu(x,y),z)).  [para(25(a,1),33(a,1))].
+
+given #119 (T,wt=9): 314 poset(x,mu(pl(y,x),squig(z,x))).  [hyper(17,b,27,a,c,159,a)].
+
+given #120 (T,wt=9): 315 poset(x,mu(pl(x,y),squig(z,x))).  [hyper(17,b,26,a,c,159,a)].
+
+given #121 (T,wt=9): 319 poset(x,mu(squig(y,x),pl(z,x))).  [hyper(17,b,159,a,c,27,a)].
+
+given #122 (T,wt=9): 320 poset(x,mu(squig(y,x),pl(x,z))).  [hyper(17,b,159,a,c,26,a)].
+
+given #123 (A,wt=16): 298 -poset(mu(x,pl(y,z)),u) | poset(x,squig(pl(mu(x,y),z),u)).  [back_rewrite(49),rewrite([296(5)])].
+
+given #124 (T,wt=9): 327 poset(pl(x,squig(y,x)),squig(y,x)).  [hyper(14,b,159,a,c,7,a)].
+
+given #125 (T,wt=9): 355 poset(x,mu(x,squig(y,mu(x,y)))).  [hyper(17,b,7,a,c,41,a)].
+
+given #126 (T,wt=9): 368 poset(x,squig(y,mu(pl(z,x),y))).  [hyper(13,a,41,a)].
+
+given #127 (T,wt=9): 369 poset(x,squig(y,mu(pl(x,z),y))).  [hyper(12,a,41,a)].
+
+given #128 (A,wt=23): 299 mu(x,mu(pl(mu(x,y),z),pl(mu(x,y),u))) = mu(x,mu(pl(y,z),pl(y,u))).  [back_rewrite(48),rewrite([296(2)])].
+
+given #129 (T,wt=9): 370 poset(x,squig(y,mu(squig(z,x),y))).  [hyper(9,a,159,a,b,41,a)].
+
+given #130 (T,wt=9): 372 poset(mu(x,y),squig(z,mu(y,z))).  [hyper(9,a,33,a,b,41,a)].
+
+given #131 (T,wt=9): 373 poset(mu(x,y),squig(z,mu(x,z))).  [hyper(9,a,32,a,b,41,a)].
+
+given #132 (T,wt=9): 374 poset(x,squig(y,squig(z,mu(x,z)))).  [hyper(9,a,41,a,b,159,a)].
+
+given #133 (A,wt=21): 300 mu(pl(x,y),pl(x,pl(mu(y,z),u))) = mu(pl(x,y),pl(x,pl(z,u))).  [back_rewrite(46),rewrite([296(2)])].
+
+given #134 (T,wt=9): 375 poset(x,pl(y,squig(z,mu(x,z)))).  [hyper(9,a,41,a,b,27,a)].
+
+given #135 (T,wt=9): 376 poset(x,pl(squig(y,mu(x,y)),z)).  [hyper(9,a,41,a,b,26,a)].
+
+given #136 (T,wt=9): 471 poset(x,mu(x,pl(pl(y,x),z))).  [hyper(17,b,7,a,c,62,a)].
+
+given #137 (T,wt=9): 483 poset(pl(x,y),pl(pl(z,y),x)).  [hyper(14,b,27,a,c,62,a)].
+
+given #138 (A,wt=13): 301 mu(x,pl(mu(x,y),z)) = mu(x,pl(y,z)).  [back_rewrite(25),rewrite([296(2)])].
+
+given #139 (T,wt=9): 489 poset(pl(x,y),pl(pl(z,x),y)).  [hyper(14,b,62,a,c,27,a)].
+
+given #140 (T,wt=9): 492 poset(x,pl(pl(y,pl(z,x)),u)).  [hyper(13,a,62,a)].
+
+given #141 (T,wt=9): 493 poset(x,pl(pl(y,pl(x,z)),u)).  [hyper(12,a,62,a)].
+
+given #142 (T,wt=9): 494 poset(x,pl(pl(y,squig(z,x)),u)).  [hyper(9,a,159,a,b,62,a)].
+
+given #143 (A,wt=17): 302 mu(x,pl(pl(mu(x,y),z),u)) = mu(x,pl(pl(y,z),u)).  [back_rewrite(297),rewrite([301(8)])].
+
+given #144 (T,wt=9): 498 poset(mu(x,y),pl(pl(z,y),u)).  [hyper(9,a,33,a,b,62,a)].
+
+given #145 (T,wt=9): 499 poset(mu(x,y),pl(pl(z,x),u)).  [hyper(9,a,32,a,b,62,a)].
+
+given #146 (T,wt=9): 500 poset(x,squig(y,pl(pl(z,x),u))).  [hyper(9,a,62,a,b,159,a)].
+
+given #147 (T,wt=9): 502 poset(x,pl(y,pl(pl(z,x),u))).  [hyper(9,a,62,a,b,27,a)].
+
+given #148 (A,wt=11): 305 poset(x,pl(mu(pl(x,y),pl(x,z)),u)).  [hyper(38,a,26,a)].
+
+given #149 (T,wt=9): 503 poset(x,pl(pl(pl(y,x),z),u)).  [hyper(9,a,62,a,b,26,a)].
+
+given #150 (T,wt=9): 526 poset(pl(x,y),pl(pl(y,x),z)).  [hyper(14,b,62,a,c,63,a)].
+
+given #151 (T,wt=9): 530 poset(pl(x,y),pl(pl(y,z),x)).  [hyper(14,b,27,a,c,63,a)].
+
+given #152 (T,wt=9): 536 poset(pl(x,y),pl(pl(x,z),y)).  [hyper(14,b,63,a,c,27,a)].
+
+given #153 (A,wt=16): 306 -poset(mu(mu(pl(x,y),pl(x,z)),pl(x,u)),w) | poset(x,w).  [para(20(a,1),38(a,1,1))].
+
+given #154 (T,wt=9): 539 poset(x,pl(pl(pl(x,y),z),u)).  [hyper(12,a,63,a)].
+
+given #155 (T,wt=9): 540 poset(x,pl(pl(squig(y,x),z),u)).  [hyper(9,a,159,a,b,63,a)].
+
+given #156 (T,wt=9): 545 poset(mu(x,y),pl(pl(y,z),u)).  [hyper(9,a,33,a,b,63,a)].
+
+given #157 (T,wt=9): 546 poset(mu(x,y),pl(pl(x,z),u)).  [hyper(9,a,32,a,b,63,a)].
+
+given #158 (A,wt=16): 307 -poset(mu(pl(x,y),mu(pl(x,z),pl(x,u))),w) | poset(x,w).  [para(20(a,1),38(a,1,2))].
+
+given #159 (T,wt=9): 547 poset(x,squig(y,pl(pl(x,z),u))).  [hyper(9,a,63,a,b,159,a)].
+
+given #160 (T,wt=9): 550 poset(x,pl(y,pl(pl(x,z),u))).  [hyper(9,a,63,a,b,27,a)].
+
+given #161 (T,wt=9): 683 poset(mu(x,pl(y,z)),pl(z,y)).  [hyper(9,a,33,a,b,77,a)].
+
+given #162 (T,wt=9): 684 poset(mu(pl(x,y),z),pl(y,x)).  [hyper(9,a,32,a,b,77,a)].
+
+given #163 (A,wt=11): 309 poset(x,squig(y,mu(pl(x,z),pl(x,u)))).  [hyper(38,a,159,a)].
+
+given #164 (T,wt=9): 685 poset(pl(x,y),squig(z,pl(y,x))).  [hyper(9,a,77,a,b,159,a)].
+
+given #165 (T,wt=9): 689 poset(pl(x,y),pl(z,pl(y,x))).  [hyper(9,a,77,a,b,27,a)].
+
+given #166 (T,wt=9): 710 poset(x,mu(x,pl(y,pl(z,x)))).  [hyper(17,b,7,a,c,80,a)].
+
+Low Water (keep): wt=37.000, iters=6878
+
+Low Water (keep): wt=27.000, iters=6796
+
+Low Water (keep): wt=25.000, iters=6686
+
+given #167 (T,wt=9): 729 poset(pl(x,y),pl(x,pl(z,y))).  [hyper(14,b,26,a,c,80,a)].
+
+given #168 (A,wt=11): 312 poset(mu(x,y),mu(y,squig(z,mu(x,y)))).  [hyper(17,b,33,a,c,159,a)].
+
+Low Water (keep): wt=23.000, iters=6675
+
+given #169 (T,wt=9): 733 poset(pl(x,y),pl(y,pl(z,x))).  [hyper(14,b,80,a,c,26,a)].
+
+given #170 (T,wt=9): 734 poset(x,pl(y,pl(z,pl(u,x)))).  [hyper(13,a,80,a)].
+
+given #171 (T,wt=9): 735 poset(x,pl(y,pl(z,pl(x,u)))).  [hyper(12,a,80,a)].
+
+Low Water (keep): wt=21.000, iters=6728
+
+given #172 (T,wt=9): 736 poset(x,pl(y,pl(z,squig(u,x)))).  [hyper(9,a,159,a,b,80,a)].
+
+given #173 (A,wt=11): 313 poset(mu(x,y),mu(x,squig(z,mu(x,y)))).  [hyper(17,b,32,a,c,159,a)].
+
+given #174 (T,wt=9): 743 poset(mu(x,y),pl(z,pl(u,y))).  [hyper(9,a,33,a,b,80,a)].
+
+given #175 (T,wt=9): 744 poset(mu(x,y),pl(z,pl(u,x))).  [hyper(9,a,32,a,b,80,a)].
+
+given #176 (T,wt=9): 745 poset(x,squig(y,pl(z,pl(u,x)))).  [hyper(9,a,80,a,b,159,a)].
+
+Low Water (keep): wt=19.000, iters=6757
+
+given #177 (T,wt=9): 866 poset(x,mu(x,pl(y,pl(x,z)))).  [hyper(17,b,7,a,c,81,a)].
+
+given #178 (A,wt=13): 335 poset(mu(x,y),squig(z,mu(pl(u,x),pl(u,y)))).  [hyper(39,a,159,a)].
+
+given #179 (T,wt=9): 887 poset(pl(x,y),pl(x,pl(y,z))).  [hyper(14,b,26,a,c,81,a)].
+
+given #180 (T,wt=9): 891 poset(pl(x,y),pl(y,pl(x,z))).  [hyper(14,b,81,a,c,26,a)].
+
+given #181 (T,wt=9): 892 poset(x,pl(y,pl(squig(z,x),u))).  [hyper(9,a,159,a,b,81,a)].
+
+given #182 (T,wt=9): 901 poset(mu(x,y),pl(z,pl(y,u))).  [hyper(9,a,33,a,b,81,a)].
+
+given #183 (A,wt=13): 337 poset(mu(x,y),pl(mu(pl(z,x),pl(z,y)),u)).  [hyper(39,a,26,a)].
+
+given #184 (T,wt=9): 902 poset(mu(x,y),pl(z,pl(x,u))).  [hyper(9,a,32,a,b,81,a)].
+
+given #185 (T,wt=9): 903 poset(x,squig(y,pl(z,pl(x,u)))).  [hyper(9,a,81,a,b,159,a)].
+
+given #186 (T,wt=9): 918 poset(mu(mu(x,y),z),mu(z,y)).  [hyper(17,b,33,a,c,169,a)].
+
+given #187 (T,wt=9): 930 poset(mu(mu(x,y),z),mu(y,z)).  [hyper(17,b,169,a,c,33,a)].
+
+given #188 (A,wt=20): 338 -poset(mu(mu(pl(x,y),pl(x,z)),pl(x,u)),w) | poset(mu(mu(y,z),u),w).  [para(20(a,1),39(a,1,1))].
+
+given #189 (T,wt=9): 935 poset(mu(mu(x,mu(y,z)),u),z).  [hyper(16,a,169,a)].
+
+given #190 (T,wt=9): 936 poset(mu(mu(x,mu(y,z)),u),y).  [hyper(15,a,169,a)].
+
+Low Water (keep): wt=17.000, iters=6688
+
+given #191 (T,wt=9): 952 poset(mu(x,mu(mu(y,z),u)),z).  [hyper(9,a,33,a,b,169,a)].
+
+given #192 (T,wt=9): 953 poset(mu(mu(mu(x,y),z),u),y).  [hyper(9,a,32,a,b,169,a)].
+
+given #193 (A,wt=20): 339 -poset(mu(pl(x,y),mu(pl(x,z),pl(x,u))),w) | poset(mu(y,mu(z,u)),w).  [para(20(a,1),39(a,1,2))].
+
+given #194 (T,wt=9): 954 poset(mu(mu(x,y),z),squig(u,y)).  [hyper(9,a,169,a,b,159,a)].
+
+given #195 (T,wt=9): 963 poset(mu(mu(x,y),z),pl(u,y)).  [hyper(9,a,169,a,b,27,a)].
+
+given #196 (T,wt=9): 964 poset(mu(mu(x,y),z),pl(y,u)).  [hyper(9,a,169,a,b,26,a)].
+
+given #197 (T,wt=9): 1017 poset(mu(mu(x,y),z),mu(y,x)).  [hyper(17,b,169,a,c,170,a)].
+
+given #198 (A,wt=15): 346 poset(mu(x,y),squig(z,mu(mu(pl(u,x),pl(u,y)),z))).  [hyper(39,a,41,a)].
+
+given #199 (T,wt=9): 1026 poset(mu(mu(x,y),z),mu(z,x)).  [hyper(17,b,33,a,c,170,a)].
+
+given #200 (T,wt=9): 1039 poset(mu(mu(x,y),z),mu(x,z)).  [hyper(17,b,170,a,c,33,a)].
+
+given #201 (T,wt=9): 1044 poset(mu(mu(mu(x,y),z),u),x).  [hyper(15,a,170,a)].
+
+given #202 (T,wt=9): 1062 poset(mu(x,mu(mu(y,z),u)),y).  [hyper(9,a,33,a,b,170,a)].
+
+given #203 (A,wt=13): 347 poset(x,squig(y,mu(mu(pl(x,z),pl(x,u)),y))).  [hyper(38,a,41,a)].
+
+given #204 (T,wt=9): 1064 poset(mu(mu(x,y),z),squig(u,x)).  [hyper(9,a,170,a,b,159,a)].
+
+given #205 (T,wt=9): 1074 poset(mu(mu(x,y),z),pl(u,x)).  [hyper(9,a,170,a,b,27,a)].
+
+given #206 (T,wt=9): 1075 poset(mu(mu(x,y),z),pl(x,u)).  [hyper(9,a,170,a,b,26,a)].
+
+given #207 (T,wt=9): 1088 poset(mu(x,y),mu(y,pl(z,x))).  [hyper(17,b,33,a,c,176,a)].
+
+given #208 (A,wt=11): 348 poset(x,squig(y,squig(z,mu(mu(x,y),z)))).  [hyper(21,a,41,a)].
+
+given #209 (T,wt=9): 1103 poset(mu(x,y),mu(pl(z,x),y)).  [hyper(17,b,176,a,c,33,a)].
+
+given #210 (T,wt=9): 1126 poset(pl(mu(x,y),z),pl(z,x)).  [hyper(14,b,176,a,c,26,a)].
+
+given #211 (T,wt=9): 1131 poset(mu(x,mu(y,z)),pl(u,y)).  [hyper(9,a,33,a,b,176,a)].
+
+given #212 (T,wt=9): 1132 poset(mu(x,y),squig(z,pl(u,x))).  [hyper(9,a,176,a,b,159,a)].
+
+given #213 (A,wt=11): 349 poset(x,mu(squig(y,x),squig(z,mu(x,z)))).  [hyper(17,b,159,a,c,41,a)].
+
+given #214 (T,wt=9): 1153 poset(mu(x,y),mu(y,pl(x,z))).  [hyper(17,b,33,a,c,177,a)].
+
+given #215 (T,wt=9): 1169 poset(mu(x,y),mu(pl(x,z),y)).  [hyper(17,b,177,a,c,33,a)].
+
+given #216 (T,wt=9): 1194 poset(pl(mu(x,y),z),pl(x,z)).  [hyper(14,b,177,a,c,27,a)].
+
+given #217 (T,wt=9): 1199 poset(mu(x,mu(y,z)),pl(y,u)).  [hyper(9,a,33,a,b,177,a)].
+
+given #218 (A,wt=13): 350 poset(x,mu(squig(y,mu(x,y)),squig(z,mu(x,z)))).  [hyper(17,b,41,a,c,41,a)].
+
+given #219 (T,wt=9): 1200 poset(mu(x,y),squig(z,pl(x,u))).  [hyper(9,a,177,a,b,159,a)].
+
+given #220 (T,wt=9): 1252 poset(mu(x,mu(y,z)),mu(z,y)).  [hyper(9,a,33,a,b,185,a)].
+
+given #221 (T,wt=9): 1253 poset(mu(x,y),squig(z,mu(y,x))).  [hyper(9,a,185,a,b,159,a)].
+
+given #222 (T,wt=9): 1262 poset(mu(x,y),pl(mu(y,x),z)).  [hyper(9,a,185,a,b,26,a)].
+
+given #223 (A,wt=13): 351 poset(mu(x,y),mu(y,squig(z,mu(mu(x,y),z)))).  [hyper(17,b,33,a,c,41,a)].
+
+given #224 (T,wt=9): 1308 poset(mu(x,squig(x,y)),pl(y,z)).  [back_rewrite(417),rewrite([1263(2)])].
+
+given #225 (T,wt=9): 1309 poset(mu(x,squig(x,y)),pl(z,y)).  [back_rewrite(416),rewrite([1263(2)])].
+
+given #226 (T,wt=9): 1311 poset(mu(x,squig(x,y)),squig(z,y)).  [back_rewrite(414),rewrite([1263(2)])].
+
+Low Water (keep): wt=15.000, iters=6711
+
+given #227 (T,wt=9): 1312 poset(mu(mu(x,squig(x,y)),z),y).  [back_rewrite(413),rewrite([1263(2)])].
+
+given #228 (A,wt=13): 352 poset(mu(x,y),mu(x,squig(z,mu(mu(x,y),z)))).  [hyper(17,b,32,a,c,41,a)].
+
+given #229 (T,wt=9): 1313 poset(mu(x,mu(y,squig(y,z))),z).  [back_rewrite(412),rewrite([1263(2)])].
+
+given #230 (T,wt=9): 1323 poset(mu(x,squig(x,mu(y,z))),y).  [back_rewrite(395),rewrite([1263(3)])].
+
+given #231 (T,wt=9): 1324 poset(mu(x,squig(x,mu(y,z))),z).  [back_rewrite(394),rewrite([1263(3)])].
+
+given #232 (T,wt=9): 1328 poset(mu(x,squig(x,y)),mu(y,x)).  [back_rewrite(389),rewrite([1263(2)])].
+
+given #233 (A,wt=11): 353 poset(x,mu(pl(y,x),squig(z,mu(x,z)))).  [hyper(17,b,27,a,c,41,a)].
+
+given #234 (T,wt=9): 1331 poset(mu(x,squig(x,y)),mu(x,y)).  [back_rewrite(382),rewrite([1263(2)])].
+
+============================== PROOF =================================
+
+% Proof 1 at 0.77 (+ 0.03) seconds.
+% Length of proof is 26.
+% Level of proof is 7.
+% Maximum clause weight is 11.000.
+% Given clauses 234.
+
+1 poset(x,y) & poset(y,x) -> x = y # label(non_clause).  [assumption].
+2 poset(x,y) & poset(y,z) -> poset(x,z) # label(non_clause).  [assumption].
+4 poset(z,mu(x,y)) <-> poset(z,x) & poset(z,y) # label(non_clause).  [assumption].
+5 poset(mu(x,y),z) <-> poset(x,squig(y,z)) # label(non_clause).  [assumption].
+6 mu(x,squig(x,y)) = mu(x,y) # label(non_clause) # label(goal).  [goal].
+7 poset(x,x).  [assumption].
+8 -poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+9 -poset(x,y) | -poset(y,z) | poset(x,z).  [clausify(2)].
+15 -poset(x,mu(y,z)) | poset(x,y).  [clausify(4)].
+16 -poset(x,mu(y,z)) | poset(x,z).  [clausify(4)].
+17 poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).  [clausify(4)].
+21 -poset(mu(x,y),z) | poset(x,squig(y,z)).  [clausify(5)].
+22 poset(mu(x,y),z) | -poset(x,squig(y,z)).  [clausify(5)].
+24 mu(c1,squig(c1,c2)) != mu(c1,c2).  [deny(6)].
+32 poset(mu(x,y),x).  [hyper(15,a,7,a)].
+33 poset(mu(x,y),y).  [hyper(16,a,7,a)].
+43 poset(mu(squig(x,y),x),y).  [hyper(22,b,7,a)].
+159 poset(x,squig(y,x)).  [hyper(21,a,32,a)].
+185 poset(mu(x,y),mu(y,x)).  [hyper(17,b,33,a,c,32,a)].
+331 poset(mu(x,y),squig(z,y)).  [hyper(9,a,33,a,b,159,a)].
+382 poset(mu(squig(x,y),x),mu(x,y)).  [hyper(17,b,33,a,c,43,a)].
+1263 mu(x,y) = mu(y,x).  [hyper(8,a,185,a,b,185,a)].
+1331 poset(mu(x,squig(x,y)),mu(x,y)).  [back_rewrite(382),rewrite([1263(2)])].
+2169 poset(mu(x,y),mu(x,squig(z,y))).  [hyper(17,b,32,a,c,331,a)].
+20941 -poset(mu(c1,c2),mu(c1,squig(c1,c2))).  [ur(8,b,1331,a,c,24,a)].
+20942 $F.  [resolve(20941,a,2169,a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=234. Generated=56064. Kept=20934. proofs=1.
+Usable=205. Sos=18146. Demods=99. Limbo=52, Disabled=2547. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=17302. Back_subsumed=180.
+Sos_limit_deleted=17828. Sos_displaced=0. Sos_removed=0.
+New_demodulators=184 (2 lex), Back_demodulated=2350. Back_unit_deleted=0.
+Demod_attempts=521124. Demod_rewrites=54252.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=1071. Nonunit_bsub_feature_tests=1258.
+Megabytes=25.11.
+User_CPU=0.77, System_CPU=0.03, Wall_clock=1.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+Process 83429 exit (max_proofs) Sun Nov 29 12:15:22 2020

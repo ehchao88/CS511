@@ -1,0 +1,110 @@
+============================== Mace4 =================================
+Mace4 (64) version 2009-11A, November 2009.
+Process 81181 was started by ericchao on Johns-MBP.home,
+Sat Nov 28 21:22:06 2020
+The command was "/Users/ericchao/LADR-2009-11A/bin/./mace4".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+formulas(assumptions).
+poset(x,x).
+poset(x,y) & poset(y,x) -> x = y.
+poset(x,y) & poset(y,z) -> poset(x,z).
+poset(B,x).
+poset(x,T).
+poset(pl(x,y),z) <-> poset(x,z) & poset(y,z).
+poset(z,mu(x,y)) <-> poset(z,x) & poset(z,y).
+mu(x,pl(y,z)) = pl(mu(x,y),mu(x,z)).
+pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).
+end_of_list.
+
+formulas(goals).
+(all x exists y (pl(x,y) = T & mul(x,y) = B)).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 poset(x,y) & poset(y,x) -> x = y # label(non_clause).  [assumption].
+2 poset(x,y) & poset(y,z) -> poset(x,z) # label(non_clause).  [assumption].
+3 poset(pl(x,y),z) <-> poset(x,z) & poset(y,z) # label(non_clause).  [assumption].
+4 poset(z,mu(x,y)) <-> poset(z,x) & poset(z,y) # label(non_clause).  [assumption].
+5 (all x exists y (pl(x,y) = T & mul(x,y) = B)) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== CLAUSES FOR SEARCH ====================
+
+formulas(mace4_clauses).
+poset(x,x).
+-poset(x,y) | -poset(y,x) | y = x.
+-poset(x,y) | -poset(y,z) | poset(x,z).
+poset(B,x).
+poset(x,T).
+-poset(pl(x,y),z) | poset(x,z).
+-poset(pl(x,y),z) | poset(y,z).
+poset(pl(x,y),z) | -poset(x,z) | -poset(y,z).
+-poset(x,mu(y,z)) | poset(x,y).
+-poset(x,mu(y,z)) | poset(x,z).
+poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).
+mu(x,pl(y,z)) = pl(mu(x,y),mu(x,z)).
+pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).
+pl(c1,x) != T | mul(c1,x) != B.
+end_of_list.
+
+============================== end of clauses for search =============
+
+% There are no natural numbers in the input.
+
+============================== DOMAIN SIZE 2 =========================
+
+============================== MODEL =================================
+
+interpretation( 2, [number=1, seconds=0], [
+
+        function(B, [ 0 ]),
+
+        function(T, [ 1 ]),
+
+        function(c1, [ 0 ]),
+
+        function(mu(_,_), [
+			   0, 0,
+			   0, 1 ]),
+
+        function(mul(_,_), [
+			   0, 1,
+			   0, 0 ]),
+
+        function(pl(_,_), [
+			   0, 1,
+			   1, 1 ]),
+
+        relation(poset(_,_), [
+			   1, 1,
+			   0, 1 ])
+]).
+
+============================== end of model ==========================
+
+============================== STATISTICS ============================
+
+For domain size 2.
+
+Current CPU time: 0.00 seconds (total CPU time: 0.01 seconds).
+Ground clauses: seen=84, kept=62.
+Selections=5, assignments=5, propagations=14, current_models=1.
+Rewrite_terms=128, rewrite_bools=81, indexes=14.
+Rules_from_neg_clauses=10, cross_offs=10.
+
+============================== end of statistics =====================
+
+User_CPU=0.01, System_CPU=0.00, Wall_clock=0.
+
+Exiting with 1 model.
+
+Process 81181 exit (max_models) Sat Nov 28 21:22:06 2020
+The process finished Sat Nov 28 21:22:06 2020

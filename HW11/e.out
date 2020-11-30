@@ -1,0 +1,151 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2009-11A, November 2009.
+Process 82533 was started by ericchao on Johns-MBP.home,
+Sat Nov 28 23:34:44 2020
+The command was "/Users/ericchao/LADR-2009-11A/bin/./prover9".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+formulas(assumptions).
+poset(x,x).
+poset(x,y) & poset(y,x) -> x = y.
+poset(x,y) & poset(y,z) -> poset(x,z).
+poset(B,x).
+poset(x,T).
+poset(pl(x,y),z) <-> poset(x,z) & poset(y,z).
+poset(z,mu(x,y)) <-> poset(z,x) & poset(z,y).
+mu(x,pl(y,z)) = pl(mu(x,y),mu(x,z)).
+pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).
+end_of_list.
+
+formulas(goals).
+(all x all y y = -x) -> (all z (z = -x -> z = y)).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 poset(x,y) & poset(y,x) -> x = y # label(non_clause).  [assumption].
+2 poset(x,y) & poset(y,z) -> poset(x,z) # label(non_clause).  [assumption].
+3 poset(pl(x,y),z) <-> poset(x,z) & poset(y,z) # label(non_clause).  [assumption].
+4 poset(z,mu(x,y)) <-> poset(z,x) & poset(z,y) # label(non_clause).  [assumption].
+5 (all x all y y = -x) -> (all z (z = -x -> z = y)) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+poset(x,x).  [assumption].
+-poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+-poset(x,y) | -poset(y,z) | poset(x,z).  [clausify(2)].
+poset(B,x).  [assumption].
+poset(x,T).  [assumption].
+-poset(pl(x,y),z) | poset(x,z).  [clausify(3)].
+-poset(pl(x,y),z) | poset(y,z).  [clausify(3)].
+poset(pl(x,y),z) | -poset(x,z) | -poset(y,z).  [clausify(3)].
+-poset(x,mu(y,z)) | poset(x,y).  [clausify(4)].
+-poset(x,mu(y,z)) | poset(x,z).  [clausify(4)].
+poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).  [clausify(4)].
+mu(x,pl(y,z)) = pl(mu(x,y),mu(x,z)).  [assumption].
+pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).  [assumption].
+-x = y.  [deny(5)].
+-c1 = c3.  [deny(5)].
+c3 != c2.  [deny(5)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:  (no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ =, poset ]).
+Function symbol precedence:  function_order([ B, T, c1, c2, c3, mu, pl, - ]).
+After inverse_order:  (no changes).
+Unfolding symbols: c3/0.
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+  % set(hyper_resolution).  % (nonunit Horn with equality)
+    % set(hyper_resolution) -> set(pos_hyper_resolution).
+  % set(neg_ur_resolution).  % (nonunit Horn with equality)
+  % assign(para_lit_limit, 3).  % (nonunit Horn with equality)
+
+Auto_process settings:  (no changes).
+
+kept:      6 poset(x,x).  [assumption].
+kept:      7 -poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+kept:      8 -poset(x,y) | -poset(y,z) | poset(x,z).  [clausify(2)].
+kept:      9 poset(B,x).  [assumption].
+kept:      10 poset(x,T).  [assumption].
+kept:      11 -poset(pl(x,y),z) | poset(x,z).  [clausify(3)].
+kept:      12 -poset(pl(x,y),z) | poset(y,z).  [clausify(3)].
+kept:      13 poset(pl(x,y),z) | -poset(x,z) | -poset(y,z).  [clausify(3)].
+kept:      14 -poset(x,mu(y,z)) | poset(x,y).  [clausify(4)].
+kept:      15 -poset(x,mu(y,z)) | poset(x,z).  [clausify(4)].
+kept:      16 poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).  [clausify(4)].
+           17 mu(x,pl(y,z)) = pl(mu(x,y),mu(x,z)).  [assumption].
+kept:      18 pl(mu(x,y),mu(x,z)) = mu(x,pl(y,z)).  [copy(17),flip(a)].
+kept:      19 pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).  [assumption].
+kept:      20 -x = y.  [deny(5)].
+           21 -c1 = c3.  [deny(5)].
+kept:      22 c3 = -c1.  [copy(21),flip(a)].
+           23 c3 != c2.  [deny(5)].
+kept:      24 -c1 != c2.  [copy(23),rewrite([22(1)])].
+
+============================== PROOF =================================
+
+% Proof 1 at 0.01 (+ 0.00) seconds.
+% Length of proof is 7.
+% Level of proof is 4.
+% Maximum clause weight is 4.000.
+% Given clauses 0.
+
+5 (all x all y y = -x) -> (all z (z = -x -> z = y)) # label(non_clause) # label(goal).  [goal].
+20 -x = y.  [deny(5)].
+21 -c1 = c3.  [deny(5)].
+22 c3 = -c1.  [copy(21),flip(a)].
+23 c3 != c2.  [deny(5)].
+24 -c1 != c2.  [copy(23),rewrite([22(1)])].
+25 $F.  [resolve(24,a,20,a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=0. Generated=16. Kept=16. proofs=1.
+Usable=0. Sos=0. Demods=3. Limbo=15, Disabled=16. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=0. Back_subsumed=0.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=3 (0 lex), Back_demodulated=0. Back_unit_deleted=0.
+Demod_attempts=33. Demod_rewrites=1.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=4. Nonunit_bsub_feature_tests=0.
+Megabytes=0.06.
+User_CPU=0.01, System_CPU=0.00, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+Process 82533 exit (max_proofs) Sat Nov 28 23:34:44 2020

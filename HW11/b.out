@@ -1,0 +1,344 @@
+============================== Prover9 ===============================
+Prover9 (64) version 2009-11A, November 2009.
+Process 81194 was started by ericchao on Johns-MBP.home,
+Sat Nov 28 21:22:24 2020
+The command was "/Users/ericchao/LADR-2009-11A/bin/./prover9".
+============================== end of head ===========================
+
+============================== INPUT =================================
+
+formulas(assumptions).
+poset(x,x).
+poset(x,y) & poset(y,x) -> x = y.
+poset(x,y) & poset(y,z) -> poset(x,z).
+poset(B,x).
+poset(x,T).
+poset(pl(x,y),z) <-> poset(x,z) & poset(y,z).
+poset(z,mu(x,y)) <-> poset(z,x) & poset(z,y).
+mu(x,pl(y,z)) = pl(mu(x,y),mu(x,z)).
+pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).
+end_of_list.
+
+formulas(goals).
+(all x all y pl(x,y) = pl(y,x)).
+(all x all y mu(x,y) = mu(y,x)).
+end_of_list.
+
+============================== end of input ==========================
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 poset(x,y) & poset(y,x) -> x = y # label(non_clause).  [assumption].
+2 poset(x,y) & poset(y,z) -> poset(x,z) # label(non_clause).  [assumption].
+3 poset(pl(x,y),z) <-> poset(x,z) & poset(y,z) # label(non_clause).  [assumption].
+4 poset(z,mu(x,y)) <-> poset(z,x) & poset(z,y) # label(non_clause).  [assumption].
+5 (all x all y pl(x,y) = pl(y,x)) # label(non_clause) # label(goal).  [goal].
+6 (all x all y mu(x,y) = mu(y,x)) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+poset(x,x).  [assumption].
+-poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+-poset(x,y) | -poset(y,z) | poset(x,z).  [clausify(2)].
+poset(B,x).  [assumption].
+poset(x,T).  [assumption].
+-poset(pl(x,y),z) | poset(x,z).  [clausify(3)].
+-poset(pl(x,y),z) | poset(y,z).  [clausify(3)].
+poset(pl(x,y),z) | -poset(x,z) | -poset(y,z).  [clausify(3)].
+-poset(x,mu(y,z)) | poset(x,y).  [clausify(4)].
+-poset(x,mu(y,z)) | poset(x,z).  [clausify(4)].
+poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).  [clausify(4)].
+mu(x,pl(y,z)) = pl(mu(x,y),mu(x,z)).  [assumption].
+pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).  [assumption].
+pl(c2,c1) != pl(c1,c2).  [deny(5)].
+mu(c4,c3) != mu(c3,c4).  [deny(6)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:
+  % assign(max_proofs, 2).  % (Horn set with more than one neg. clause)
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ =, poset ]).
+Function symbol precedence:  function_order([ B, T, c1, c2, c3, c4, mu, pl ]).
+After inverse_order:  (no changes).
+Unfolding symbols: (none).
+
+Auto_inference settings:
+  % set(paramodulation).  % (positive equality literals)
+  % set(hyper_resolution).  % (nonunit Horn with equality)
+    % set(hyper_resolution) -> set(pos_hyper_resolution).
+  % set(neg_ur_resolution).  % (nonunit Horn with equality)
+  % assign(para_lit_limit, 3).  % (nonunit Horn with equality)
+
+Auto_process settings:  (no changes).
+
+kept:      7 poset(x,x).  [assumption].
+kept:      8 -poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+kept:      9 -poset(x,y) | -poset(y,z) | poset(x,z).  [clausify(2)].
+kept:      10 poset(B,x).  [assumption].
+kept:      11 poset(x,T).  [assumption].
+kept:      12 -poset(pl(x,y),z) | poset(x,z).  [clausify(3)].
+kept:      13 -poset(pl(x,y),z) | poset(y,z).  [clausify(3)].
+kept:      14 poset(pl(x,y),z) | -poset(x,z) | -poset(y,z).  [clausify(3)].
+kept:      15 -poset(x,mu(y,z)) | poset(x,y).  [clausify(4)].
+kept:      16 -poset(x,mu(y,z)) | poset(x,z).  [clausify(4)].
+kept:      17 poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).  [clausify(4)].
+           18 mu(x,pl(y,z)) = pl(mu(x,y),mu(x,z)).  [assumption].
+kept:      19 pl(mu(x,y),mu(x,z)) = mu(x,pl(y,z)).  [copy(18),flip(a)].
+kept:      20 pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).  [assumption].
+kept:      21 pl(c2,c1) != pl(c1,c2).  [deny(5)].
+kept:      22 mu(c4,c3) != mu(c3,c4).  [deny(6)].
+kept:      23 mu(pl(mu(x,y),x),pl(mu(x,y),z)) = mu(x,pl(y,z)).  [back_rewrite(19),rewrite([20(3)])].
+
+============================== end of process initial clauses ========
+
+============================== CLAUSES FOR SEARCH ====================
+
+% Clauses after input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+7 poset(x,x).  [assumption].
+8 -poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+9 -poset(x,y) | -poset(y,z) | poset(x,z).  [clausify(2)].
+10 poset(B,x).  [assumption].
+11 poset(x,T).  [assumption].
+12 -poset(pl(x,y),z) | poset(x,z).  [clausify(3)].
+13 -poset(pl(x,y),z) | poset(y,z).  [clausify(3)].
+14 poset(pl(x,y),z) | -poset(x,z) | -poset(y,z).  [clausify(3)].
+15 -poset(x,mu(y,z)) | poset(x,y).  [clausify(4)].
+16 -poset(x,mu(y,z)) | poset(x,z).  [clausify(4)].
+17 poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).  [clausify(4)].
+20 pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).  [assumption].
+21 pl(c2,c1) != pl(c1,c2).  [deny(5)].
+22 mu(c4,c3) != mu(c3,c4).  [deny(6)].
+23 mu(pl(mu(x,y),x),pl(mu(x,y),z)) = mu(x,pl(y,z)).  [back_rewrite(19),rewrite([20(3)])].
+end_of_list.
+
+formulas(demodulators).
+20 pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).  [assumption].
+23 mu(pl(mu(x,y),x),pl(mu(x,y),z)) = mu(x,pl(y,z)).  [back_rewrite(19),rewrite([20(3)])].
+end_of_list.
+
+============================== end of clauses for search =============
+
+============================== SEARCH ================================
+
+% Starting search at 0.01 seconds.
+
+given #1 (I,wt=3): 7 poset(x,x).  [assumption].
+
+given #2 (I,wt=9): 8 -poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+
+given #3 (I,wt=9): 9 -poset(x,y) | -poset(y,z) | poset(x,z).  [clausify(2)].
+
+given #4 (I,wt=3): 10 poset(B,x).  [assumption].
+
+given #5 (I,wt=3): 11 poset(x,T).  [assumption].
+
+given #6 (I,wt=8): 12 -poset(pl(x,y),z) | poset(x,z).  [clausify(3)].
+
+given #7 (I,wt=8): 13 -poset(pl(x,y),z) | poset(y,z).  [clausify(3)].
+
+given #8 (I,wt=11): 14 poset(pl(x,y),z) | -poset(x,z) | -poset(y,z).  [clausify(3)].
+
+given #9 (I,wt=8): 15 -poset(x,mu(y,z)) | poset(x,y).  [clausify(4)].
+
+given #10 (I,wt=8): 16 -poset(x,mu(y,z)) | poset(x,z).  [clausify(4)].
+
+given #11 (I,wt=11): 17 poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).  [clausify(4)].
+
+given #12 (I,wt=13): 20 pl(x,mu(y,z)) = mu(pl(x,y),pl(x,z)).  [assumption].
+
+given #13 (I,wt=7): 21 pl(c2,c1) != pl(c1,c2).  [deny(5)].
+
+given #14 (I,wt=7): 22 mu(c4,c3) != mu(c3,c4).  [deny(6)].
+
+given #15 (I,wt=17): 23 mu(pl(mu(x,y),x),pl(mu(x,y),z)) = mu(x,pl(y,z)).  [back_rewrite(19),rewrite([20(3)])].
+
+given #16 (A,wt=5): 24 poset(x,pl(x,y)).  [hyper(12,a,7,a)].
+
+given #17 (T,wt=5): 25 poset(x,pl(y,x)).  [hyper(13,a,7,a)].
+
+given #18 (T,wt=5): 26 poset(pl(B,B),x).  [hyper(14,b,10,a,c,10,a)].
+
+given #19 (T,wt=5): 27 poset(pl(B,x),x).  [hyper(14,b,10,a,c,7,a)].
+
+given #20 (T,wt=5): 28 poset(pl(x,B),x).  [hyper(14,b,7,a,c,10,a)].
+
+given #21 (A,wt=5): 29 poset(pl(x,x),x).  [hyper(14,b,7,a,c,7,a)].
+
+given #22 (T,wt=5): 30 poset(mu(x,y),x).  [hyper(15,a,7,a)].
+
+given #23 (T,wt=5): 31 poset(mu(x,y),y).  [hyper(16,a,7,a)].
+
+given #24 (T,wt=5): 32 poset(x,mu(T,T)).  [hyper(17,b,11,a,c,11,a)].
+
+given #25 (T,wt=5): 33 poset(x,mu(T,x)).  [hyper(17,b,11,a,c,7,a)].
+
+given #26 (A,wt=5): 34 poset(x,mu(x,T)).  [hyper(17,b,7,a,c,11,a)].
+
+given #27 (T,wt=5): 35 poset(x,mu(x,x)).  [hyper(17,b,7,a,c,7,a)].
+
+given #28 (T,wt=5): 57 pl(T,x) = T.  [hyper(8,a,11,a,b,24,a),flip(a)].
+
+given #29 (T,wt=5): 74 pl(x,T) = T.  [hyper(8,a,11,a,b,25,a),flip(a)].
+
+given #30 (T,wt=5): 106 pl(B,x) = x.  [hyper(8,a,25,a,b,27,a)].
+
+given #31 (A,wt=12): 36 -poset(mu(pl(x,y),pl(x,z)),u) | poset(x,u).  [para(20(a,1),12(a,1))].
+
+given #32 (T,wt=5): 126 pl(x,B) = x.  [hyper(8,a,24,a,b,28,a)].
+
+given #33 (T,wt=5): 144 pl(x,x) = x.  [hyper(8,a,25,a,b,29,a)].
+
+given #34 (T,wt=5): 164 mu(B,x) = B.  [hyper(8,a,10,a,b,30,a)].
+
+given #35 (T,wt=5): 188 mu(x,B) = B.  [hyper(8,a,10,a,b,31,a)].
+
+given #36 (A,wt=14): 37 -poset(mu(pl(x,y),pl(x,z)),u) | poset(mu(y,z),u).  [para(20(a,1),13(a,1))].
+
+given #37 (T,wt=5): 222 mu(T,x) = x.  [hyper(8,a,31,a,b,33,a),flip(a)].
+
+given #38 (T,wt=5): 239 mu(x,T) = x.  [hyper(8,a,30,a,b,34,a),flip(a)].
+
+given #39 (T,wt=5): 255 mu(x,x) = x.  [hyper(8,a,31,a,b,35,a),flip(a)].
+
+given #40 (T,wt=6): 257 -poset(T,x) | poset(y,x).  [para(57(a,1),13(a,1))].
+
+given #41 (A,wt=14): 39 -poset(x,mu(y,pl(z,u))) | poset(x,pl(mu(y,z),u)).  [para(23(a,1),16(a,2))].
+
+given #42 (T,wt=6): 271 -poset(x,B) | poset(x,y).  [para(164(a,1),16(a,2))].
+
+given #43 (T,wt=7): 54 poset(x,pl(pl(y,x),z)).  [hyper(13,a,24,a)].
+
+given #44 (T,wt=7): 55 poset(x,pl(pl(x,y),z)).  [hyper(12,a,24,a)].
+
+given #45 (T,wt=7): 61 poset(x,mu(x,pl(y,x))).  [hyper(17,b,7,a,c,25,a)].
+
+given #46 (A,wt=31): 41 mu(mu(pl(mu(mu(x,y),z),x),pl(mu(mu(x,y),z),y)),pl(mu(mu(x,y),z),u)) = mu(mu(x,y),pl(z,u)).  [para(20(a,1),23(a,1,1))].
+
+given #47 (T,wt=7): 64 poset(x,mu(pl(y,x),x)).  [hyper(17,b,25,a,c,7,a)].
+
+given #48 (T,wt=7): 68 poset(pl(x,y),pl(y,x)).  [hyper(14,b,25,a,c,24,a)].
+
+% Operation pl is commutative; C redundancy checks enabled.
+
+============================== PROOF =================================
+
+% Proof 1 at 0.02 (+ 0.01) seconds.
+% Length of proof is 14.
+% Level of proof is 5.
+% Maximum clause weight is 11.000.
+% Given clauses 48.
+
+1 poset(x,y) & poset(y,x) -> x = y # label(non_clause).  [assumption].
+3 poset(pl(x,y),z) <-> poset(x,z) & poset(y,z) # label(non_clause).  [assumption].
+5 (all x all y pl(x,y) = pl(y,x)) # label(non_clause) # label(goal).  [goal].
+7 poset(x,x).  [assumption].
+8 -poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+12 -poset(pl(x,y),z) | poset(x,z).  [clausify(3)].
+13 -poset(pl(x,y),z) | poset(y,z).  [clausify(3)].
+14 poset(pl(x,y),z) | -poset(x,z) | -poset(y,z).  [clausify(3)].
+21 pl(c2,c1) != pl(c1,c2).  [deny(5)].
+24 poset(x,pl(x,y)).  [hyper(12,a,7,a)].
+25 poset(x,pl(y,x)).  [hyper(13,a,7,a)].
+68 poset(pl(x,y),pl(y,x)).  [hyper(14,b,25,a,c,24,a)].
+454 pl(x,y) = pl(y,x).  [hyper(8,a,68,a,b,68,a)].
+455 $F.  [resolve(454,a,21,a)].
+
+============================== end of proof ==========================
+% Redundant proof: 457 $F.  [resolve(456,a,7,a)].
+% Redundant proof: 465 $F.  [back_rewrite(21),rewrite([454(3)]),xx(a)].
+
+% Disable descendants (x means already disabled):
+ 21x 456
+
+given #49 (T,wt=7): 71 poset(x,pl(y,pl(z,x))).  [hyper(13,a,25,a)].
+
+given #50 (T,wt=7): 72 poset(x,pl(y,pl(x,z))).  [hyper(12,a,25,a)].
+
+given #51 (A,wt=9): 44 poset(x,mu(pl(x,y),pl(x,z))).  [hyper(17,b,24,a,c,24,a)].
+
+given #52 (T,wt=7): 154 poset(mu(mu(x,y),z),y).  [hyper(16,a,30,a)].
+
+given #53 (T,wt=7): 155 poset(mu(mu(x,y),z),x).  [hyper(15,a,30,a)].
+
+given #54 (T,wt=7): 161 poset(mu(x,y),pl(z,x)).  [hyper(9,a,30,a,b,25,a)].
+
+given #55 (T,wt=7): 162 poset(mu(x,y),pl(x,z)).  [hyper(9,a,30,a,b,24,a)].
+
+given #56 (A,wt=9): 53 poset(pl(x,pl(x,y)),pl(x,y)).  [hyper(14,b,24,a,c,7,a)].
+
+given #57 (T,wt=7): 170 poset(mu(x,y),mu(y,x)).  [hyper(17,b,31,a,c,30,a)].
+
+% Operation mu is commutative; C redundancy checks enabled.
+
+============================== PROOF =================================
+
+% Proof 2 at 0.03 (+ 0.01) seconds.
+% Length of proof is 14.
+% Level of proof is 5.
+% Maximum clause weight is 11.000.
+% Given clauses 57.
+
+1 poset(x,y) & poset(y,x) -> x = y # label(non_clause).  [assumption].
+4 poset(z,mu(x,y)) <-> poset(z,x) & poset(z,y) # label(non_clause).  [assumption].
+6 (all x all y mu(x,y) = mu(y,x)) # label(non_clause) # label(goal).  [goal].
+7 poset(x,x).  [assumption].
+8 -poset(x,y) | -poset(y,x) | y = x.  [clausify(1)].
+15 -poset(x,mu(y,z)) | poset(x,y).  [clausify(4)].
+16 -poset(x,mu(y,z)) | poset(x,z).  [clausify(4)].
+17 poset(x,mu(y,z)) | -poset(x,y) | -poset(x,z).  [clausify(4)].
+22 mu(c4,c3) != mu(c3,c4).  [deny(6)].
+30 poset(mu(x,y),x).  [hyper(15,a,7,a)].
+31 poset(mu(x,y),y).  [hyper(16,a,7,a)].
+170 poset(mu(x,y),mu(y,x)).  [hyper(17,b,31,a,c,30,a)].
+856 mu(x,y) = mu(y,x).  [hyper(8,a,170,a,b,170,a)].
+857 $F.  [resolve(856,a,22,a)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=57. Generated=2239. Kept=846. proofs=2.
+Usable=43. Sos=441. Demods=27. Limbo=39, Disabled=337. Hints=0.
+Kept_by_rule=0, Deleted_by_rule=0.
+Forward_subsumed=1392. Back_subsumed=13.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=45 (1 lex), Back_demodulated=308. Back_unit_deleted=0.
+Demod_attempts=15377. Demod_rewrites=2365.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=108. Nonunit_bsub_feature_tests=146.
+Megabytes=1.03.
+User_CPU=0.03, System_CPU=0.01, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+Exiting with 2 proofs.
+
+Process 81194 exit (max_proofs) Sat Nov 28 21:22:24 2020

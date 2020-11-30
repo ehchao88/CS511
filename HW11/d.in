@@ -1,0 +1,31 @@
+%set(binary_resolution).
+%clear(print_initial_clauses).
+%clear(print_kept).
+%clear(print_given).
+%assign(max_seconds,1).
+%assign(stats,none).
+
+formulas(assumptions).
+% Lattice
+poset(x,x). %reflexive
+(poset(x,y)&poset(y,x)) -> (x=y). %anti-symmetric
+(poset(x,y)&poset(y,z)) -> poset(x,z). %transitive
+
+poset(B,x).
+poset(x,T).
+(poset(pl(x,y),z)) <-> (poset(x,z)&poset(y,z)).
+(poset(z,mu(x,y))) <-> (poset(z,x)&poset(z,y)).
+
+mu(x,pl(y,z)) = (pl(mu(x,y), mu(x,z))).
+pl(x,mu(y,z)) = (mu(pl(x,y), pl(x,z))).
+
+poset(mu(x,y),z) <-> poset(x,squig(y,z)).
+
+squig(x,y) = pl(Hat(x),y).
+end_of_list.
+
+
+formulas(goals).
+all x pl(x,Hat(x)) = T. 
+all x mu(x,Hat(x)) = B.
+end_of_list.
