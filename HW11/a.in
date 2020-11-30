@@ -23,5 +23,5 @@ end_of_list.
 
 
 formulas(goals).
-all x exists y ((pl(x,y) = T)&(mul(x,y) = B)).
+all x exists y ((pl(x,y) = T)&(mu(x,y) = B)).
 end_of_list.
