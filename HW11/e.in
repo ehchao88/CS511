@@ -23,5 +23,5 @@ end_of_list.
 
 
 formulas(goals).
-all x all y (y=-x) -> all z (z=-x -> z=y).
+all x all y (y=-x) -> all z (z=-x <-> z=y).
 end_of_list.
